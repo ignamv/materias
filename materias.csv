@@ -12,7 +12,7 @@ n,MATERIA,APODO,T,P,L,CORRELATIVAS
 10,Laboratorio 3,l3 labo3, , ,6,4 8 6(TP) 7(TP)
 11,Cálculo Numérico,num,4,5, ,1 5(TP)
 12,Matemática 4,m4 mate4,6,6, ,1 3 5(TP)
-13,Mecánica Clásica,,4,5, ,2 3 5 7(TP)
+13,Mecánica Clásica,clasica mecanica,4,5, ,2 3 5 7(TP)
 14,Laboratorio 4,l4 labo4, , ,6,6 7 10 9(TP)
 15,Física Teórica 1,teo1,4,5, ,7 9(TP) 12(TP) 13(TP)
 16,Física Teórica 2,teo2,4,5, ,7 9(TP) 12(TP) 13(TP)
