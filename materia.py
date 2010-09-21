@@ -7,6 +7,7 @@ class materia():
 		self.apodo = apodo
 		self.horas = horas
 		self.correlativas = correlativas
+		self.aprobada = False
 
 class materias():
 	def __init__(self,archivo):
@@ -52,13 +53,20 @@ class materias():
 				return self.mats[n]
 		raise LookupError
 
-	def correlativas(self,materia,lista=[]):
+	def correlativas(self,materia,aprobadas=True,lista=[]):
+		""" Devuelve una lista de materias correlativas a materia.
+		Si aprobadas es True, incluye las que ya fueron aprobadas,
+		de lo contrario sólo lista las que falta aprobar
+		"""
+		if materia.aprobada and not aprobadas:
+			return []
 		padre = False
 		if not lista:
 			padre = True
 		for m in materia.correlativas:
 			#TODO: que diferencie correl. de TP con final
-			if m[0] not in lista:
+			if m[0] not in lista and (not self.mats[m[0]].aprobada or
+					aprobadas):
 				lista.append(m[0])
 				self.correlativas(self.mats[m[0]],lista)
 		if padre:
