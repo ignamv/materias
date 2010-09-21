@@ -53,16 +53,17 @@ class materias():
 				return self.mats[n]
 		raise LookupError
 
-	def correlativas(self,materia,aprobadas=True,lista=[]):
+	def correlativas(self,materia,aprobadas=True,lista=None):
 		""" Devuelve una lista de materias correlativas a materia.
 		Si aprobadas es True, incluye las que ya fueron aprobadas,
 		de lo contrario sólo lista las que falta aprobar
 		"""
+		padre = False
+		if lista is None:
+			lista = []
+			padre = True
 		if materia.aprobada and not aprobadas:
 			return []
-		padre = False
-		if not lista:
-			padre = True
 		for m in materia.correlativas:
 			#TODO: que diferencie correl. de TP con final
 			if m[0] not in lista:
@@ -71,5 +72,6 @@ class materias():
 					self.correlativas(self.mats[m[0]],aprobadas,lista)
 		if padre:
 			lista.sort()
-			return [self.mats[i] for i in lista]
+			ret = [self.mats[i] for i in lista]
+			return ret
 
