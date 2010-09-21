@@ -65,10 +65,10 @@ class materias():
 			padre = True
 		for m in materia.correlativas:
 			#TODO: que diferencie correl. de TP con final
-			if m[0] not in lista and (not self.mats[m[0]].aprobada or
-					aprobadas):
-				lista.append(m[0])
-				self.correlativas(self.mats[m[0]],lista)
+			if m[0] not in lista:
+				if aprobadas or not self.mats[m[0]].aprobada:
+					lista.append(m[0])
+					self.correlativas(self.mats[m[0]],aprobadas,lista)
 		if padre:
 			lista.sort()
 			return [self.mats[i] for i in lista]
