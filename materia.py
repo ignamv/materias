@@ -21,7 +21,10 @@ class materias():
 				fila.reverse()
 				n = int(fila.pop())
 				nombre = fila.pop()
-				apodos = fila.pop().split(" ")
+				apodos = fila.pop().strip().split(" ")
+				if not apodos[0]:
+					del apodos[0]
+				apodos.append(nombre.lower())
 				horas = tuple(fila[-3:])
 				del fila[-3:]
 				correlativas = []
@@ -43,6 +46,7 @@ class materias():
 
 	def buscar(self, nombre):
 		# Busca entre las materias por número o apodo
+		nombre = nombre.lower()
 		for n in self.mats:
 			if nombre in self.mats[n].apodo or str(n) == nombre:
 				return self.mats[n]
