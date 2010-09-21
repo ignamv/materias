@@ -45,6 +45,12 @@ class materias():
 			datos = open(archivo,'rb')
 			self.mats = pickle.load(datos)
 
+	def guardar(self,archivo):
+		import pickle
+		salida = open("materias.pkl",'wb')
+		pickle.dump(self.mats,salida)
+		salida.close()
+
 	def buscar(self, nombre):
 		# Busca entre las materias por número o apodo
 		nombre = nombre.lower()
