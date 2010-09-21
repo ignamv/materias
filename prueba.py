@@ -23,8 +23,8 @@ elif "-l" in sys.argv or "--list" in sys.argv:
 		mat = m.mats[n]
 		print "%2d %s\t%s" % (n,mat.nombre.ljust(27),"/".join(mat.apodo))
 	sys.exit()
-elif "-a" in sys.argv or "--aprobadas" in sys.argv:
-	# No listo correlativas que ya aprobé
+if "-a" in sys.argv or "--aprobadas" in sys.argv:
+	# Cargo la lista de aprobadas
 	f = file("aprobadas.txt",'r')
 	for linea in f:
 		linea = linea.strip()
@@ -39,6 +39,14 @@ elif "-a" in sys.argv or "--aprobadas" in sys.argv:
 			continue
 		materia.aprobada = True
 	aprobadas = False
+if "-t" in sys.argv or "--todas" in sys.argv:
+	# Muestro todas las que puedo cursar
+	for n in m.mats:
+		materia = m.mats[n]
+		c = m.correlativas(materia,aprobadas)
+		if not materia.aprobada and not c:
+			print materia.nombre
+	sys.exit()
 
 busqueda = sys.argv.pop()
 materia = m.buscar(busqueda)
