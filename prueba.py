@@ -2,11 +2,8 @@
 #--coding: utf-8--
 
 from materia import *
-
-m = materias("materias.csv")
-aprobadas = True # Listar correlativas aprobadas
-
 from os import sys
+
 if len(sys.argv) == 1 or "-h" in sys.argv or "--help" in sys.argv:
 	# Ayuda
 	print "Muestra correlativas de materias"
@@ -17,13 +14,27 @@ if len(sys.argv) == 1 or "-h" in sys.argv or "--help" in sys.argv:
 	print sys.argv[0],"19"
 	print sys.argv[0],"\"matemática 1\""
 	sys.exit()
-elif "-l" in sys.argv or "--list" in sys.argv:
+
+archivo = "materias.csv"
+if "-f" in sys.argv or "--file" in sys.argv:
+	# El usuario especificó un archivo de materias
+	i = sys.argv.index("-f")
+	archivo = sys.argv[i+1]
+	del sys.argv[i:i+2]
+
+m = materias(archivo)
+
+if "-l" in sys.argv or "--list" in sys.argv:
 	print "Lista de materias:"
 	for n in m.mats:
 		mat = m.mats[n]
 		print "%2d %s\t%s" % (n,mat.nombre.ljust(27),"/".join(mat.apodo))
 	sys.exit()
+
+aprobadas = True # Listar correlativas aprobadas
 if "-a" in sys.argv or "--aprobadas" in sys.argv:
+	sys.argv.remove("-a")
+	sys.argv.remove("--aprobadas")
 	# Cargo la lista de aprobadas
 	f = file("aprobadas.txt",'r')
 	for linea in f:
@@ -39,6 +50,7 @@ if "-a" in sys.argv or "--aprobadas" in sys.argv:
 			continue
 		materia.aprobada = True
 	aprobadas = False
+
 if "-t" in sys.argv or "--todas" in sys.argv:
 	# Muestro todas las que puedo cursar
 	for n in m.mats:
