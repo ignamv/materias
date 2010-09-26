@@ -6,14 +6,14 @@ from os import sys
 import argparse
 
 parser = argparse.ArgumentParser(
-	description='Información de materias y correlativas')
+		description='Información de materias y correlativas')
 parser.add_argument('-f','--file',default='materias.csv')
 parser.add_argument('-p','--passed-file',dest='pfile',default='aprobadas.txt')
 parser.add_argument('-l','--list', action='store_true',default=False)
 parser.add_argument('-a','--available', action='store_true',default=False)
 parser.add_argument('-x','--exclude-passed', action='store_true',default=False,
 		dest='exclude')
-parser.add_argument('materia', nargs='+')
+parser.add_argument('materia', nargs='*', default=[])
 opciones = parser.parse_args()
 
 m = materias(opciones.file)
@@ -44,14 +44,18 @@ if opciones.available:
 	# Muestro todas las que puedo cursar
 	for n in m.mats:
 		materia = m.mats[n]
-		c = m.correlativas(materia,not opciones.exclude)
+		c = m.correlativas(materia,False)
 		if not materia.aprobada and not c:
 			print materia.nombre
 	sys.exit()
 
 for busqueda in opciones.materia:
-	materia = m.buscar(busqueda)
-	print "Correlativas para",materia.nombre,
+	try:
+		materia = m.buscar(busqueda)
+	except LookupError:
+		print "-No encontré",busqueda
+		continue
+	print "-Correlativas para",materia.nombre,
 	if opciones.exclude:
 		print "(excluyendo aprobadas)"
 	else:
