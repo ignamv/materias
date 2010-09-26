@@ -17,6 +17,8 @@ parser.add_argument('-a','--available', action='store_true',default=False,
 		help='Mostrar las materias que puedo cursar')
 parser.add_argument('-x','--exclude-passed', action='store_true',default=False,
 		dest='exclude', help='No mostrar materias ya aprobadas')
+parser.add_argument('-v','--verbose', action='store_true',default=False,
+		help='Mostrar mensajes de error')
 parser.add_argument('materia', nargs='*', default=[],
 		help='Buscar correlativas de estas materias')
 opciones = parser.parse_args()
@@ -32,7 +34,8 @@ for linea in open(opciones.pfile,'r'):
 		materia = m.buscar(linea)
 	except LookupError:
 		# Los ignoro...
-		print "Materia no reconocida:",linea
+		if opciones.verbose:
+			print "Materia no reconocida:",linea
 		print type(linea)
 		continue
 	materia.aprobada = True
@@ -62,13 +65,11 @@ for busqueda in opciones.materia:
 	try:
 		materia = m.buscar(busqueda)
 	except LookupError:
-		print "-No encontré",busqueda
+		if opciones.verbose:
+			print "-No encontré",busqueda
 		continue
-	print "-Correlativas para",materia.nombre,
-	if opciones.exclude:
-		print "(excluyendo aprobadas)"
-	else:
-		print
+	print "-Correlativas para",materia.nombre,["","(excluyendo aprobadas)"] \
+			[opciones.exclude]
 	correlativas = m.correlativas(materia,not opciones.exclude)
 	if not correlativas:
 		print "Ninguna"
