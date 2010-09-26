@@ -24,9 +24,9 @@ opciones = parser.parse_args()
 m = materias(opciones.file)
 
 # Cargo la lista de aprobadas
-for linea in file(opciones.pfile,'r'):
+for linea in open(opciones.pfile,'r'):
 	linea = linea.strip()
-	if not linea:
+	if not linea or linea[0]=='#':
 		continue
 	try:
 		materia = m.buscar(linea)
